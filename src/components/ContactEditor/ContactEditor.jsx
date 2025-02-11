@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contacts/operations";
+import { addContacts } from "../../redux/contacts/operations";
 import css from "./ContactEditor.module.css";
 
 export default function ContactEditor() {
@@ -11,7 +11,7 @@ export default function ContactEditor() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (name && phone) {
-      dispatch(addContact({ name, phone }));
+      dispatch(addContacts({ name, phone }));
       setName("");
       setPhone("");
     }
