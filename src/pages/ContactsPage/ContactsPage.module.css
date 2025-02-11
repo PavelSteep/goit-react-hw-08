@@ -1,0 +1,67 @@
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --background-color: #f8f9fa;
+  --text-color: #212529;
+  --card-bg: #ffffff;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease-in-out;
+}
+
+.contacts-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: var(--card-bg);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  text-align: center;
+}
+
+.page-title {
+  font-size: 2rem;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+.contact-editor {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: var(--background-color);
+  border-radius: var(--border-radius);
+}
+
+.loading-message {
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .contacts-container {
+    padding: 15px;
+  }
+
+  .page-title {
+    font-size: 1.8rem;
+  }
+
+  .loading-message {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .contacts-container {
+    padding: 10px;
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .loading-message {
+    font-size: 0.9rem;
+  }
+}

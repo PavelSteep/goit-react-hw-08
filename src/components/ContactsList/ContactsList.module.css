@@ -1,0 +1,42 @@
+.contactList {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+  max-width: 500px;
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.contactItem {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.contactItem:last-child {
+  border-bottom: none;
+}
+
+.contactText {
+  font-size: 16px;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .contactList {
+    padding: 15px;
+  }
+  .title {
+    font-size: 20px;
+  }
+}

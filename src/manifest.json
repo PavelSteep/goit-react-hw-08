@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Your Extension",
+  "version": "1.0",
+  "description": "Your description",
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "public/font/ProximaNova-Reg-webfont.woff2",
+        "public/font/ProximaNova-Bold-webfont.woff2"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "permissions": [
+    "activeTab"
+  ]
+}
