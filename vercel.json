@@ -1,25 +1,18 @@
 {
   "rewrites": [
     {
-      "source": "/:path*",
-      "destination": "/"
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/old-route",
-      "destination": "/new-route",
-      "permanent": true
+      "source": "/api/:path*",
+      "destination": "https://goit-task-manager.herokuapp.com/:path*"
     }
   ],
   "headers": [
     {
-      "source": "/(.*)",
+      "source": "/api/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" }
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,PUT,DELETE,OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" }
       ]
     }
-  ],
-  "cleanUrls": true
+  ]
 }

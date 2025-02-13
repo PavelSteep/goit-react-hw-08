@@ -2,10 +2,13 @@ import React from "react";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://goit-task-manager.herokuapp.com/";
+axios.defaults.baseURL = "http://localhost:4000";
+// fetch("http://localhost:4000/api/users/login");
+// axios.defaults.baseURL = "https://goit-task-manager.herokuapp.com/";
 
 const setAuthHeader = token => {
-  axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  // axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
 };
 
 const clearAuthHeader = token => {
