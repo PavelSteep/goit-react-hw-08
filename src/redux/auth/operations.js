@@ -2,7 +2,7 @@ import React from "react";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://my-app.herokuapp.com";
+// axios.defaults.baseURL = "https://my-app.herokuapp.com";
 // axios.defaults.baseURL = "https://goit-task-manager.herokuapp.com/";
 
 const setAuthHeader = token => {

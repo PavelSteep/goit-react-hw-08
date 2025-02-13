@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "clear": "rimraf dist",
     "server": "node server.js",
-    "server-dev": "nodemon server.js"
+    "server-dev": "nodemon server.js",
+    "proxy": "https://my-app.herokuapp.com"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
