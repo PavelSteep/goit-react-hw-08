@@ -11,7 +11,7 @@
     "clear": "rimraf dist",
     "server": "node server.js",
     "server-dev": "nodemon server.js",
-    "proxy": "https://my-app.herokuapp.com"
+    "proxy": "https://connections-api.goit.global/"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
