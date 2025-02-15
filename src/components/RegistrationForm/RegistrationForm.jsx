@@ -1,18 +1,39 @@
 import React from "react";
 import { Formik, Form, Field } from "formik";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { register } from "../../redux/auth/operations";
 import css from "./RegistrationForm.module.css";
 
 export default function RegistrationForm() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (values, actions) => {
+    console.log("Values being sent:", values);
 
-    actions.dispatch(register(values));
+    dispatch(register(values))
+      .unwrap()
+      .then(() => {
+        navigate("/login"); // Перенаправляем пользователя на страницу логина
+      })
+      .catch((error) => {
+        console.error("Registration error:", error.response?.data || error.message || error);
+        console.error("Registration error:", error);
+
+        console.error("Error response:", error.response);
+        console.error("Error message:", error.message);
+        console.error("Error details:", error);
+      });
 
     actions.resetForm();
   };
+
+
+    // actions.dispatch(register(values));
+
+    // actions.resetForm();
+
 
   return (
     <Formik

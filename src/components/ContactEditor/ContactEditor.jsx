@@ -1,44 +1,60 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { addContacts } from "../../redux/contacts/operations";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { addContact } from "../../redux/contacts/operations";
 import css from "./ContactEditor.module.css";
 
 export default function ContactEditor() {
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (name && phone) {
-      dispatch(addContacts({ name, phone }));
-      setName("");
-      setPhone("");
-    }
+  const initialValues = {
+    name: "",
+    phone: "",
+  };
+
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .min(2, "Name is too short")
+      .max(50, "Name is too long")
+      .required("Required field"),
+    phone: Yup.string()
+      .matches(/^\+?\d{10,15}$/, "Enter a valid number")
+      .required("Required field"),
+  });
+
+  const handleSubmit = (values, { resetForm }) => {
+    dispatch(addContact({ name: values.name, number: values.phone }));
+    resetForm();
   };
 
   return (
-    <form className={css.form} onSubmit={handleSubmit}>
-      <h2 className={css.title}>Add Contact</h2>
-      <label className={css.label}>
-        Name
-        <input
-          type="text"
-          className={css.input}
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-      </label>
-      <label className={css.label}>
-        Phone
-        <input
-          type="tel"
-          className={css.input}
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-        />
-      </label>
-      <button type="submit" className={css.button}>Add Contact</button>
-    </form>
+    <Formik 
+      initialValues={initialValues} 
+      validationSchema={validationSchema} 
+      onSubmit={handleSubmit}
+    >
+      {({ isSubmitting }) => (
+        <Form className={css.form}>
+          <h2 className={css.title}>Add Contact</h2>
+
+          <label className={css.label}>
+            Name
+            <Field type="text" name="name" className={css.input} />
+            <ErrorMessage name="name" component="div" className={css.error} />
+          </label>
+
+          <label className={css.label}>
+            Phone
+            <Field type="tel" name="phone" className={css.input} />
+            <ErrorMessage name="phone" component="div" className={css.error} />
+          </label>
+
+          <button type="submit" className={css.button} disabled={isSubmitting}>
+            {isSubmitting ? "Adding..." : "Add Contact"}
+          </button>
+        </Form>
+      )}
+    </Formik>
   );
 }

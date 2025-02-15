@@ -2,7 +2,7 @@ import { fetchContacts, addContact, deleteContact, updateContact } from "./opera
 import { logOut } from "../auth/operations";
 import { createSlice } from "@reduxjs/toolkit";
 
-const contactsSlice = createSlice({
+const slice = createSlice({
   name: "contacts",
   initialState: {
     items: [],
@@ -61,13 +61,8 @@ const contactsSlice = createSlice({
       .addCase(updateContact.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
-      })
-      .addCase(logOut.fulfilled, (state) => {
-        state.items = [];
-        state.isLoading = false;
-        state.error = null;
       });
   },
 });
 
-export default contactsSlice.reducer;
+export default slice.reducer;

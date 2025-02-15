@@ -1,11 +1,9 @@
 import React from "react";
 import { createSlice } from "@reduxjs/toolkit";
-import { register } from "./operations";
-import { logIn } from "./operations";
-import { logOut } from "./operations";
-import { addContacts } from "../contacts/operations";
+import { register, logIn, logOut, refreshUser } from "./operations";
+import { addContact } from "../contacts/operations";
 
-const authSlice = createSlice({
+const slice = createSlice({
   name: "auth",
   initialState: {
     user: {
@@ -29,13 +27,18 @@ const authSlice = createSlice({
       state.user = {
         name: null,
         email: null,
-      };
+      }
       state.token = null;
       state.isLoggedIn = false;
+    }).addCase(refreshUser.pending, (state) => {
+      state.isRefreshing = true;
+    }).addCase(refreshUser.fulfilled, (state, action) => {
+      state.user = action.payload;
+      state.isLoggedIn = true;
+      state.isRefreshing = false;
+    }).addCase(refreshUser.rejected, (state) => {
+      state.isRefreshing = false;
     })
-    .addCase(addContacts.fulfilled, (state, action) => {
-      state.contacts.push(action.payload);
-    }),
 });
 
-export default authSlice.reducer;
+export default slice.reducer;

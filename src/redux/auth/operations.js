@@ -25,7 +25,8 @@ export const register = createAsyncThunk("auth/register", async (newUser, thunkA
     setAuthHeader(response.data.token);
     return response.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    console.error("Registration error:", error.response?.data || error.message || error);
+    return thunkAPI.rejectWithValue(error.response?.data || error.message || error);
   }
 });
 
@@ -59,3 +60,33 @@ export const logOut = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(error.message);
   }
 });
+
+/*
+* GET @ /users/me
+* headers: Authorization: Bearer token
+*
+* Reading the token from the state via getState()
+* Add it to the HTTP header and perform the request
+* If there is no token, exit without performing any request
+*/
+
+export const refreshUser = createAsyncThunk(
+  "auth/refresh",
+  async (_, thunkAPI) => {
+    const reduxState = thunkAPI.getState();
+    console.log(reduxState);
+    const savedToken = reduxState.auth.token;
+    setAuthHeader(savedToken);
+
+    const response = await axios.get("/users/me");
+    return response.data;
+  },
+  {
+    condition(_, thunkAPI) {       // условия запуска операции, по токину определяет нужно запускать выше операцию
+      const reduxState = thunkAPI.getState();
+      const savedToken = reduxState.auth.token;
+
+      return savedToken !== null;
+    },
+  }
+);
