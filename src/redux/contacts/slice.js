@@ -2,11 +2,12 @@ import { fetchContacts, addContact, deleteContact, updateContact } from "./opera
 import { logOut } from "../auth/operations";
 import { createSlice } from "@reduxjs/toolkit";
 
-const slice = createSlice({
+const contactsSlice = createSlice({
   name: "contacts",
   initialState: {
     items: [],
     isLoading: false,
+    contacts: [],
     error: null,
   },
   extraReducers: builder => {
@@ -41,11 +42,19 @@ const slice = createSlice({
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.isLoading = false;
         state.error = null;
-        state.items = state.items.filter(contact => contact.id !== action.payload); // Удаляем контакт
+        const index = state.items.findIndex(
+          contact => contact.id === action.payload.id
+        );
+        state.items.splice(index, 1);
       })
       .addCase(deleteContact.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      .addCase(logOut.fulfilled, state => {
+        state.items = [];
+        state.isLoading = false;
+        state.error = null;
       })
       .addCase(updateContact.pending, state => {
         state.isLoading = true;
@@ -65,4 +74,4 @@ const slice = createSlice({
   },
 });
 
-export default slice.reducer;
+export default contactsSlice.reducer;
