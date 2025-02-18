@@ -6,12 +6,12 @@ const API_URL = 'https://679a5a3c747b09cdccce9830.mockapi.io/contacts';
 
 
 const setAuthHeader = token => {
-  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  apiContacts.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   // axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
 };
 
-const clearAuthHeader = token => {
-  axios.defaults.headers.common["Authorization"] = "";
+const clearAuthHeader = () => {
+  delete apiContacts.defaults.headers.common["Authorization"];
 };
 
 // GET @ /contacts
@@ -20,7 +20,6 @@ export const fetchContacts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(API_URL)
-      setAuthHeader(response.data.token);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -34,7 +33,6 @@ export const addContact = createAsyncThunk(
   async (contact, thunkAPI) => {
     try {
       const response = await axios.post(API_URL, contact);
-      setAuthHeader(response.data.token);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -47,9 +45,8 @@ export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (id, thunkAPI) => {
     try {
-      const response = await axios.delete(`${API_URL}/${id}`);
-      clearAuthHeader();
-      return response.data;
+      await axios.delete(`${API_URL}/${id}`);
+      return id;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -61,7 +58,7 @@ export const updateContact = createAsyncThunk(
   'contacts/updateContact',
   async ({ id, contact }, thunkAPI) => {
     try {
-      const response = await axios.patch(`${API_URL}/${id}`, { contact });
+      const response = await apiContacts.patch(`/${id}`, contact);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

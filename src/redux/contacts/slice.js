@@ -7,40 +7,52 @@ const contactsSlice = createSlice({
   initialState: {
     items: [],
     isLoading: false,
+    isRefreshing: false,
     error: null,
   },
   extraReducers: builder => {
     builder
       .addCase(fetchContacts.pending, state => {
         state.isLoading = true;
+        state.isRefreshing = true;
         state.error = null;
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isRefreshing = false;
         state.items = action.payload;
       })
       .addCase(fetchContacts.rejected, (state, action) => {
         state.isLoading = false;
+        state.isRefreshing = false;
         state.error = action.payload;
         console.error("Ошибка при загрузке контактов:", action.payload);
       })
       .addCase(addContact.pending, (state) => {
         state.isLoading = true;
+        state.isRefreshing = true;
+        state.error = null;
       })
       .addCase(addContact.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isRefreshing = false;
+        state.error = null;
         state.items.push(action.payload);
       })
       .addCase(addContact.rejected, (state, action) => {
         state.isLoading = false;
+        state.isRefreshing = false;
         state.error = action.payload;
         console.error("Ошибка при добавлении контакта:", action.payload);
       })
       .addCase(deleteContact.pending, state => {
         state.isLoading = true;
+        state.isRefreshing = true;
+        state.error = null;
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isRefreshing = false;
         state.items = state.items.filter(contact => contact.id !== action.payload);
         state.error = null;
     })    
@@ -55,11 +67,14 @@ const contactsSlice = createSlice({
       // })
       .addCase(deleteContact.rejected, (state, action) => {
         state.isLoading = false;
+        state.isRefreshing = false;
         state.error = action.payload;
         console.error("Ошибка при удалении контакта:", action.payload);
       })
       .addCase(updateContact.pending, state => {
         state.isLoading = true;
+        state.isRefreshing = true;
+        state.error = null;
       })
       .addCase(updateContact.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -71,12 +86,14 @@ const contactsSlice = createSlice({
       })
       .addCase(updateContact.rejected, (state, action) => {
         state.isLoading = false;
+        state.isRefreshing = false;
         state.error = action.payload;
         console.error("Ошибка при обновлении контакта:", action.payload);
       })
       .addCase(logOut.fulfilled, state => {
         state.items = [];
         state.isLoading = false;
+        state.isRefreshing = false;
         state.error = null;
       });
   },
@@ -85,11 +102,9 @@ const contactsSlice = createSlice({
 export const selectFilteredContacts = createSelector(
   [(state) => state.contacts.items, (state) => state.filters],
   (contacts, filter) => {
-    
     if (!filter || typeof filter !== 'string') {
       return contacts;
     }
-
     return contacts.filter((contact) =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );

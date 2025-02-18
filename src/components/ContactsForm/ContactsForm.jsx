@@ -21,14 +21,13 @@ const ContactsForm = () => {
       return;
     }
 
-    dispatch(addContact({ contact: { name, phone } }));
+    // dispatch(addContact({ contact: { name, phone } }));
 
-    // dispatch(
-    //   addContact({
-    //     name,
-    //     phone,
-    //   })
-    // );
+    dispatch(addContact({ name, phone })).then(() => {
+      alert('Contact added successfully!');
+    }).catch(error => {
+      alert("Failed to add contact");
+    });
 
     setName('');
     setPhone('');

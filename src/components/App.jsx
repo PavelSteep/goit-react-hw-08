@@ -5,6 +5,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Layout from "../components/Layout/Layout";
 import { refreshUser } from "../redux/auth/operations";
 import { selectIsRefreshing } from "../redux/auth/selectors";
+import { fetchContacts } from "../redux/contacts/operations";
+import { selectLoading } from "../redux/contacts/selectors";
 import RestrictedRoute from "../components/RestrictedRoute/RestrictedRoute";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 import "modern-normalize";
@@ -19,14 +21,16 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
+  const isContactsLoading = useSelector(selectIsRefreshing);
 
   useEffect(() => {
     dispatch(refreshUser());
+    dispatch(fetchContacts());
   }, [dispatch]);
   
   return (
     <>
-      {isRefreshing ? (
+      {(isRefreshing || isContactsLoading) ? (
           <ClipLoader color="#36d7b7" size={50} />
         ) : (
       <Layout>

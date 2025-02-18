@@ -25,9 +25,9 @@ export default function ContactsPage() {
         <ContactsForm />
         {/* <ContactEditor /> */}
       </div>
-      {/* <div className={css["loading-message"]}>
+      <div className={css["loading-message"]}>
         {isLoading && "Request in progress..."}
-      </div> */}
+      </div>
       <SearchBox />
       <ContactList />
       {/* <ContactsList /> */}
