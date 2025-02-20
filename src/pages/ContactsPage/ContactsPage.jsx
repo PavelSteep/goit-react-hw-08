@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import ContactsList from "../../components/ContactsList/ContactsList";
 import ContactList from "../../components/ContactList/ContactList";
 import ContactEditor from "../../components/ContactEditor/ContactEditor";
 import { fetchContacts } from "../../redux/contacts/operations.js";
@@ -30,7 +29,6 @@ export default function ContactsPage() {
       </div>
       <SearchBox />
       <ContactList />
-      {/* <ContactsList /> */}
     </div>
   );
 }

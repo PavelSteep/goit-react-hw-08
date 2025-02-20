@@ -2,11 +2,13 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import Contact from '../Contact/Contact';
 import { selectFilteredContacts } from '../../redux/contacts/slice';
+import { selectAllContacts } from "../../redux/contacts/selectors.js";
 import { selectFilter } from '../../redux/filters/selectors.js';
 import css from './ContactList.module.css';
 
 const ContactList = () => {
   const visibleContacts = useSelector(selectFilteredContacts) || [];
+  const contacts = useSelector(selectAllContacts);
   const filter = useSelector(selectFilter) || "";
 
   // Проверяем, что filter — это строка, а visibleContacts — массив объектов
