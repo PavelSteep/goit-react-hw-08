@@ -29,16 +29,16 @@ function App() {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  useEffect(() => {
-    const clearContactsOnExit = () => {
-      sessionStorage.removeItem("contacts");
-    };
+  // useEffect(() => {
+  //   const clearContactsOnExit = () => {
+  //     sessionStorage.removeItem("contacts");
+  //   };
 
-    window.addEventListener("beforeunload", clearContactsOnExit);
-    return () => {
-      window.removeEventListener("beforeunload", clearContactsOnExit);
-    };
-  }, []);
+  //   window.addEventListener("beforeunload", clearContactsOnExit);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", clearContactsOnExit);
+  //   };
+  // }, []);
   
   return (
     <>
