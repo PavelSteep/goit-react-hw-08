@@ -17,6 +17,7 @@ const RegisterPage = lazy(() => import("../pages/RegisterPage/RegisterPage"));
 const LoginPage = lazy(() => import("../pages/LoginPage/LoginPage"));
 const ContactsPage = lazy(() => import("../pages/ContactsPage/ContactsPage"));
 
+
 function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -27,6 +28,17 @@ function App() {
     dispatch(refreshUser());
     dispatch(fetchContacts());
   }, [dispatch]);
+
+  useEffect(() => {
+    const clearContactsOnExit = () => {
+      sessionStorage.removeItem("contacts");
+    };
+
+    window.addEventListener("beforeunload", clearContactsOnExit);
+    return () => {
+      window.removeEventListener("beforeunload", clearContactsOnExit);
+    };
+  }, []);
   
   return (
     <>

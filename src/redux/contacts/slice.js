@@ -2,10 +2,11 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 import { fetchContacts, addContact, deleteContact, updateContact } from "./operations";
 import { logOut } from "../auth/operations";
 
+
 const contactsSlice = createSlice({
   name: "contacts",
   initialState: {
-    items: [],
+    items: JSON.parse(sessionStorage.getItem("contacts") || "[]"),
     isLoading: false,
     isRefreshing: false,
     error: null,
@@ -21,6 +22,8 @@ const contactsSlice = createSlice({
         state.isLoading = false;
         state.isRefreshing = false;
         state.items = action.payload;
+        sessionStorage.setItem("contacts", JSON.stringify(state.items));
+        state.error = null;
       })
       .addCase(fetchContacts.rejected, (state, action) => {
         state.isLoading = false;
@@ -38,6 +41,7 @@ const contactsSlice = createSlice({
         state.isRefreshing = false;
         state.error = null;
         state.items.push(action.payload);
+        sessionStorage.setItem("contacts", JSON.stringify(state.items));
       })
       .addCase(addContact.rejected, (state, action) => {
         state.isLoading = false;
@@ -55,6 +59,7 @@ const contactsSlice = createSlice({
         state.isRefreshing = false;
         state.items = state.items.filter(contact => contact.id !== action.payload);
         state.error = null;
+        sessionStorage.setItem("contacts", JSON.stringify(state.items));
     })    
       // .addCase(deleteContact.fulfilled, (state, action) => {
       //   state.isLoading = false;
@@ -82,6 +87,7 @@ const contactsSlice = createSlice({
         const index = state.items.findIndex(contact => contact.id === action.payload.id);
         if (index !== -1) {
           state.items[index] = action.payload;
+          sessionStorage.setItem("contacts", JSON.stringify(state.items));
         }
       })
       .addCase(updateContact.rejected, (state, action) => {
@@ -95,7 +101,13 @@ const contactsSlice = createSlice({
         state.isLoading = false;
         state.isRefreshing = false;
         state.error = null;
+        sessionStorage.removeItem("contacts");
       });
+      // .addCase(logOut, state => {
+      //   state.items = []; // Очищаем контакты при выходе
+      //   state.isLoading = false;
+      //   state.error = null;
+      // });
   },
 });
 

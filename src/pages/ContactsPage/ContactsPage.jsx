@@ -7,15 +7,33 @@ import { fetchContacts } from "../../redux/contacts/operations.js";
 import { selectLoading } from "../../redux/contacts/selectors.js";
 import SearchBox from "../../components/SearchBox/SearchBox.jsx";
 import ContactsForm from "../../components/ContactsForm/ContactsForm.jsx";
+import { logOut } from "../../redux/auth/operations"; // Импортируем действие для очистки
 import css from "./ContactsPage.module.css";
 
 export default function ContactsPage() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectLoading);
 
+
+  // useEffect(() => {
+  //   dispatch(fetchContacts());
+  // }, [dispatch]);
+
+
   useEffect(() => {
     dispatch(fetchContacts());
+
+    // Очистка store при закрытии вкладки
+    const handleUnload = () => {
+      dispatch(logOut()); // Выход пользователя сбрасывает store
+    };
+
+    window.addEventListener("beforeunload", handleUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+    };
   }, [dispatch]);
+
 
   return (
     <div className={css["contacts-container"]}>
