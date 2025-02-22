@@ -20,8 +20,10 @@ export const fetchContacts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(API_URL)
+      console.log("Contacts fetched:", response.data);
       return response.data;
     } catch (error) {
+      console.error("Error fetching contacts:", error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
