@@ -1,20 +1,23 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { apiContacts } from '../../services/api';
+import { apiContacts } from "../../services/api";
 
-const API_URL = 'https://679a5a3c747b09cdccce9830.mockapi.io/contacts';
+// Основной URL API для работы с контактами
+const API_URL = "https://679a5a3c747b09cdccce9830.mockapi.io/contacts";
 
-const setAuthHeader = token => {
+// Устанавливает заголовок авторизации с токеном
+const setAuthHeader = (token) => {
   apiContacts.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 };
 
+// Очищает заголовок авторизации
 const clearAuthHeader = () => {
-  delete apiContacts.defaults.headers.common["Authorization"];
+  apiContacts.defaults.headers.common["Authorization"] = "";
 };
 
-// Получение списка контактов
+// Запрос списка контактов (GET /contacts)
 export const fetchContacts = createAsyncThunk(
-  'contacts/fetchAll',
+  "contacts/fetchAll",
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(API_URL);
@@ -25,9 +28,9 @@ export const fetchContacts = createAsyncThunk(
   }
 );
 
-// Добавление контакта
+// Добавление нового контакта (POST /contacts)
 export const addContact = createAsyncThunk(
-  'contacts/addContact',
+  "contacts/addContact",
   async (contact, thunkAPI) => {
     try {
       const response = await axios.post(API_URL, contact);
@@ -38,9 +41,9 @@ export const addContact = createAsyncThunk(
   }
 );
 
-// Удаление контакта
+// Удаление контакта (DELETE /contacts/:id)
 export const deleteContact = createAsyncThunk(
-  'contacts/deleteContact',
+  "contacts/deleteContact",
   async (id, thunkAPI) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
@@ -51,9 +54,9 @@ export const deleteContact = createAsyncThunk(
   }
 );
 
-// Обновление контакта
+// Обновление контакта (PATCH /contacts/:id)
 export const updateContact = createAsyncThunk(
-  'contacts/updateContact',
+  "contacts/updateContact",
   async ({ id, contact }, thunkAPI) => {
     try {
       const response = await axios.patch(`${API_URL}/${id}`, contact);
@@ -64,7 +67,7 @@ export const updateContact = createAsyncThunk(
   }
 );
 
-// Восстановление пользователя при наличии токена
+// Функция обновления данных пользователя, но теперь использует API контактов вместо /users/me
 export const refreshUser = createAsyncThunk(
   "auth/refresh",
   async (_, thunkAPI) => {
@@ -72,12 +75,13 @@ export const refreshUser = createAsyncThunk(
     const savedToken = reduxState.auth.token;
 
     if (!savedToken) {
-      return thunkAPI.rejectWithValue("No token found");
+      return thunkAPI.rejectWithValue("Нет токена");
     }
 
     setAuthHeader(savedToken);
 
     try {
+      // Запрашиваем контакты вместо запроса к /users/me
       const response = await axios.get(API_URL);
       return response.data;
     } catch (error) {
