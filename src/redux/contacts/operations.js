@@ -4,23 +4,20 @@ import { apiContacts } from '../../services/api';
 
 const API_URL = 'https://679a5a3c747b09cdccce9830.mockapi.io/contacts';
 
-
 const setAuthHeader = token => {
   apiContacts.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  // axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
 };
 
-const clearAuthHeader = token => {
-  axios.defaults.headers.common["Authorization"] = "";
+const clearAuthHeader = () => {
+  delete apiContacts.defaults.headers.common["Authorization"];
 };
 
-// GET @ /contacts
+// Получение списка контактов
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get(API_URL)
-      setAuthHeader(response.data.token);
+      const response = await axios.get(API_URL);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -28,13 +25,12 @@ export const fetchContacts = createAsyncThunk(
   }
 );
 
-// POST @ /contact
+// Добавление контакта
 export const addContact = createAsyncThunk(
   'contacts/addContact',
   async (contact, thunkAPI) => {
     try {
       const response = await axios.post(API_URL, contact);
-      setAuthHeader(response.data.token);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -42,13 +38,12 @@ export const addContact = createAsyncThunk(
   }
 );
 
-// DELETE @ /contact/:id
+// Удаление контакта
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (id, thunkAPI) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
-      clearAuthHeader();
       return id;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -56,7 +51,7 @@ export const deleteContact = createAsyncThunk(
   }
 );
 
-// PATCH @ /contacts/:id
+// Обновление контакта
 export const updateContact = createAsyncThunk(
   'contacts/updateContact',
   async ({ id, contact }, thunkAPI) => {
@@ -66,5 +61,33 @@ export const updateContact = createAsyncThunk(
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
+  }
+);
+
+// Восстановление пользователя при наличии токена
+export const refreshUser = createAsyncThunk(
+  "auth/refresh",
+  async (_, thunkAPI) => {
+    const reduxState = thunkAPI.getState();
+    const savedToken = reduxState.auth.token;
+
+    if (!savedToken) {
+      return thunkAPI.rejectWithValue("No token found");
+    }
+
+    setAuthHeader(savedToken);
+
+    try {
+      const response = await axios.get(API_URL);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  },
+  {
+    condition(_, thunkAPI) {
+      const reduxState = thunkAPI.getState();
+      return reduxState.auth.token !== null;
+    },
   }
 );
