@@ -10,8 +10,8 @@ const setAuthHeader = token => {
   // axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
 };
 
-const clearAuthHeader = () => {
-  delete apiContacts.defaults.headers.common["Authorization"];
+const clearAuthHeader = token => {
+  axios.defaults.headers.common["Authorization"] = "";
 };
 
 // GET @ /contacts
@@ -20,10 +20,9 @@ export const fetchContacts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(API_URL)
-      console.log("Contacts fetched:", response.data);
+      setAuthHeader(response.data.token);
       return response.data;
     } catch (error) {
-      console.error("Error fetching contacts:", error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -35,6 +34,7 @@ export const addContact = createAsyncThunk(
   async (contact, thunkAPI) => {
     try {
       const response = await axios.post(API_URL, contact);
+      setAuthHeader(response.data.token);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -48,6 +48,7 @@ export const deleteContact = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
+      clearAuthHeader();
       return id;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
