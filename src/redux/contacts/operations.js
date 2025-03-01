@@ -3,6 +3,8 @@ import axios from 'axios';
 
 const API_URL = 'https://679a5a3c747b09cdccce9830.mockapi.io/contacts';
 
+// const API_URL = 'https://679a5a3c747b09cdccce9830.mockapi.io/contacts';
+
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, thunkAPI) => {

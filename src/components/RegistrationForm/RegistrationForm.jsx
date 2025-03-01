@@ -20,10 +20,6 @@ export default function RegistrationForm() {
       .catch((error) => {
         console.error("Registration error:", error.response?.data || error.message || error);
         console.error("Registration error:", error);
-
-        console.error("Error response:", error.response);
-        console.error("Error message:", error.message);
-        console.error("Error details:", error);
       });
 
     actions.resetForm();
