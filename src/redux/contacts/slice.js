@@ -1,13 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchContacts, addContact, deleteContact } from './operations';
 import { createSelector } from '@reduxjs/toolkit';
+import { selectAllContacts } from "../contacts/selectors";
+import { selectFilter } from "../filters/selectors";
 
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
     items: [],
+    filter: "",
     loading: false,
     error: null,
+  },
+  reducers: {
+    setFilter: (state, action) => {
+      state.filter = action.payload; // Сохраняем фильтр в состоянии
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -48,19 +56,32 @@ const contactsSlice = createSlice({
   },
 });
 
+
 export const selectFilteredContacts = createSelector(
-  [(state) => state.contacts.items, (state) => state.filters],
+  [selectAllContacts, selectFilter],
   (contacts, filter) => {
-    
-    if (!filter || typeof filter !== 'string') {
+    if (!filter) {
       return contacts;
     }
-
     return contacts.filter((contact) =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   }
 );
+
+// export const selectFilteredContacts = createSelector(
+//   [(state) => state.contacts.items, (state) => state.filters],
+//   (contacts, filter) => {
+    
+//     if (!filter || typeof filter !== 'string') {
+//       return contacts;
+//     }
+
+//     return contacts.filter((contact) =>
+//       contact.name.toLowerCase().includes(filter.toLowerCase())
+//     );
+//   }
+// );
 
 export const { setFilter } = contactsSlice.actions;
 

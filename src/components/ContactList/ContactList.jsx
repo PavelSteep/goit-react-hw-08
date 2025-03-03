@@ -13,15 +13,15 @@ const ContactList = () => {
 
   // Проверяем, что filter — это строка, а visibleContacts — массив объектов
   const filteredContacts = visibleContacts.filter(contact =>
-    (contact?.name?.toLowerCase()?.includes(filter.toLowerCase()) || contact?.phone?.includes(filter))
+    (contact?.name?.toLowerCase()?.includes(filter.toLowerCase()) || contact?.number?.includes(filter))
   );
 
   return (
     <ul className={css['contact-list']}>
       {filteredContacts.length > 0 ? (
-        filteredContacts.map(({ id, name, phone }) =>
-          id && name && phone ? (
-            <Contact key={id} id={id} name={name} phone={phone} />
+        filteredContacts.map(({ id, name, number }) =>
+          id && name && number ? (
+            <Contact key={id} id={id} name={name} number={number} />
           ) : null
         )
       ) : (

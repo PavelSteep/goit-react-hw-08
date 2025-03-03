@@ -5,7 +5,7 @@ import css from './ContactsForm.module.css';
 
 const ContactsForm = () => {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [number, setPhone] = useState('');
 
   const dispatch = useDispatch();
   
@@ -21,9 +21,9 @@ const ContactsForm = () => {
       return;
     }
 
-    // dispatch(addContact({ contact: { name, phone } }));
+    // dispatch(addContact({ contact: { name, number } }));
 
-    dispatch(addContact({ name, phone })).then(() => {
+    dispatch(addContact({ name, number })).then(() => {
       alert('Contact added successfully!');
     }).catch(error => {
       alert("Failed to add contact");
@@ -44,7 +44,7 @@ const ContactsForm = () => {
       />
       <input
         type="tel"
-        value={phone}
+        value={number}
         onChange={e => setPhone(e.target.value)}
         placeholder="Enter phone number"
         required
