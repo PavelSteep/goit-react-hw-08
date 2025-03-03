@@ -11,10 +11,16 @@ const ContactList = () => {
   const contacts = useSelector(selectAllContacts);
   const filter = useSelector(selectFilter) || "";
 
+  console.log('visibleContacts:', visibleContacts);
+  console.log('contacts:', contacts);
+  console.log('filter:', filter);
+
   // Проверяем, что filter — это строка, а visibleContacts — массив объектов
   const filteredContacts = visibleContacts.filter(contact =>
     (contact?.name?.toLowerCase()?.includes(filter.toLowerCase()) || contact?.number?.includes(filter))
   );
+
+  console.log('filteredContacts:', filteredContacts);
 
   return (
     <ul className={css['contact-list']}>
