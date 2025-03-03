@@ -7,16 +7,16 @@ import { selectFilter } from '../../redux/filters/selectors.js';
 import css from './ContactList.module.css';
 
 const ContactList = () => {
-  const visibleContacts = useSelector(selectFilteredContacts) || [];
-  const contacts = useSelector(selectAllContacts);
-  const filter = useSelector(selectFilter) || "";
+  const visibleContacts = useSelector(selectFilteredContacts) || []; // Селектор для отфильтрованных контактов
+  const contacts = useSelector(selectAllContacts); // Все контакты
+  const filter = useSelector(selectFilter) || ""; // Значение фильтра
 
   console.log('visibleContacts:', visibleContacts);
   console.log('contacts:', contacts);
   console.log('filter:', filter);
 
-  // Проверяем, что filter — это строка, а visibleContacts — массив объектов
-  const filteredContacts = visibleContacts.filter(contact =>
+  // Если filter не пустой, фильтруем контакты по имени или номеру
+  const filteredContacts = contacts.filter(contact =>
     (contact?.name?.toLowerCase()?.includes(filter.toLowerCase()) || contact?.number?.includes(filter))
   );
 
