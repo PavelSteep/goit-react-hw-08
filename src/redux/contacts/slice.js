@@ -60,12 +60,12 @@ const contactsSlice = createSlice({
 
 export const selectFilteredContacts = createSelector(
   [selectAllContacts, selectFilter],
-  (contacts, filter) => {
-    if (!filter) {
+  (contacts, filterValue) => {
+    if (!filterValue) {
       return contacts;
     }
     return contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
+      contact.name.toLowerCase().includes(filterValue.toLowerCase())
     );
   }
 );
