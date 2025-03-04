@@ -25,11 +25,12 @@ const contactsSlice = createSlice({
       })
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.loading = false;
-        state.items = action.payload;
+        state.items = action.payload; // Сохраняем полученные контакты
       })
       .addCase(fetchContacts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        console.error("Error fetching contacts:", action.payload); // Логируем ошибку
       })
       .addCase(addContact.pending, (state) => {
         state.loading = true;
@@ -68,6 +69,7 @@ export const selectFilteredContacts = createSelector(
     );
   }
 );
+
 
 // export const selectFilteredContacts = createSelector(
 //   [(state) => state.contacts.items, (state) => state.filters],
