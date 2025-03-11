@@ -5,7 +5,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Layout from "../components/Layout/Layout";
 import { refreshUser } from "../redux/auth/operations";
 import { selectIsRefreshing } from "../redux/auth/selectors";
-import { fetchContacts } from "../redux/contacts/operations";
+// import { fetchContacts } from "../redux/contacts/operations";
 import ContactsForm from '../components/ContactsForm/ContactsForm';
 import ContactList from '../components/ContactList/ContactList';
 import SearchBox from '../components/SearchBox/SearchBox';
@@ -25,11 +25,11 @@ function App() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
-  const isContactsLoading = useSelector(selectIsRefreshing);
+  // const isContactsLoading = useSelector(selectIsRefreshing);
 
   useEffect(() => {
     dispatch(refreshUser());
-    dispatch(fetchContacts());
+    // dispatch(fetchContacts());
   }, [dispatch]);
 
   useEffect(() => {
@@ -45,7 +45,7 @@ function App() {
   
   return (
     <>
-      {(isRefreshing || isContactsLoading) ? (
+      { isRefreshing ? (
           <ClipLoader color="#36d7b7" size={50} />
         ) : (
       <Layout>
