@@ -2,7 +2,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Устанавливаем базовый URL для всех запросов
-axios.defaults.baseURL = "https://connections-api.goit.global";
+axios.defaults.baseURL = "https://connections-api.herokuapp.com";
+// axios.defaults.baseURL = "https://connections-api.goit.global";
 
 // Получение списка всех контактов (GET /contacts)
 export const fetchContacts = createAsyncThunk(
@@ -26,10 +27,10 @@ export const fetchContacts = createAsyncThunk(
 // Добавление нового контакта (POST /contacts)
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async (contact, thunkAPI) => {
+  async ({name, number}, thunkAPI) => {
     try {
       // Отправляем запрос на /contacts для создания нового контакта
-      const response = await axios.post("/contacts", contact);
+      const response = await axios.post("/contacts", {name, number});
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -40,11 +41,11 @@ export const addContact = createAsyncThunk(
 // Удаление контакта (DELETE /contacts/{contactId})
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
-  async (id, thunkAPI) => {
+  async (contactId, thunkAPI) => {
     try {
       // Отправляем запрос на /contacts/{id} для удаления контакта
-      await axios.delete(`/contacts/${id}`);
-      return id;
+      await axios.delete(`/contacts/${contactId}`);
+      return contactId;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -54,10 +55,10 @@ export const deleteContact = createAsyncThunk(
 // Обновление контакта (PUT /contacts/{contactId})
 export const updateContact = createAsyncThunk(
   'contacts/updateContact',
-  async (contact, thunkAPI) => {
+  async ({ id, name, number }, thunkAPI) => {
     try {
       // Отправляем запрос на /contacts/{id} для обновления контакта
-      const response = await axios.put(`/contacts/${contact.id}`, contact);
+      const response = await axios.put(`/contacts/${id}`, { name, number });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
