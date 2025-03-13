@@ -5,7 +5,6 @@ import css from "./PrivateRoute.module.css";
 
 export default function PrivateRoute({ component: Component, redirectTo }) {
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  // const isRefreshing = useSelector(selectIsRefreshing);
 
   return isLoggedIn ? (
     Component 

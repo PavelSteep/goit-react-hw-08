@@ -15,7 +15,7 @@ export default function RegistrationForm() {
     dispatch(register(values))
       .unwrap()
       .then(() => {
-        navigate("/login"); // Перенаправляем пользователя на страницу логина
+        navigate("/login");
       })
       .catch((error) => {
         console.error("Registration error:", error.response?.data || error.message || error);
@@ -24,12 +24,6 @@ export default function RegistrationForm() {
 
     actions.resetForm();
   };
-
-
-    // actions.dispatch(register(values));
-
-    // actions.resetForm();
-
 
   return (
     <Formik

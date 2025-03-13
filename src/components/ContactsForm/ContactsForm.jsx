@@ -21,8 +21,6 @@ const ContactsForm = () => {
       return;
     }
 
-    // dispatch(addContact({ contact: { name, number } }));
-
     dispatch(addContact({ name, number })).then(() => {
       alert('Contact added successfully!');
     }).catch(error => {

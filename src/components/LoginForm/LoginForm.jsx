@@ -16,7 +16,7 @@ export default function LoginForm() {
       .unwrap()
       .then(() => {
         toast.success("Success!!!");
-        navigate("/contacts"); // Перенаправляем на страницу контактов
+        navigate("/contacts");
       })
       .catch((error) => {
         console.log(error);

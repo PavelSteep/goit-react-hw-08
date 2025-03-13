@@ -2,8 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Устанавливаем базовый URL для всех запросов
-axios.defaults.baseURL = "https://connections-api.herokuapp.com";
-// axios.defaults.baseURL = "https://connections-api.goit.global";
+axios.defaults.baseURL = "https://connections-api.goit.global/";
 
 // Получение списка всех контактов (GET /contacts)
 export const fetchContacts = createAsyncThunk(
