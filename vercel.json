@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://goit-task-manager.herokuapp.com/:path*"
+      "destination": "https://connections-api.goit.global/:path*"
     },
     {
       "source": "/(.*)",

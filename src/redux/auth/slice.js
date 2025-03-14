@@ -1,11 +1,17 @@
 import React from "react";
 import { createSlice } from "@reduxjs/toolkit";
 import { register, logIn, logOut, refreshUser } from "./operations";
+import { selectAuthItems } from "./selectors";
+import { selectFilter } from "../filters/selectors";
 import { addContact } from "../contacts/operations";
 
 const authSlice = createSlice({
   name: "auth",
   initialState: {
+    items: [],
+    filter: "",
+    loading: false,
+    error: null,
     user: {
       name: null,
       email: null,
@@ -45,5 +51,17 @@ const authSlice = createSlice({
       state.isRefreshing = false;
     })
 });
+
+// export const selectFilteredAuth = createSelector(
+//   [selectAuthItems, selectFilter],
+//   (auth, filterValue) => {
+//     if (!filterValue) {
+//       return auth;
+//     }
+//     return auth.filter((contact) =>
+//       contact.name.toLowerCase().includes(filterValue.toLowerCase())
+//     );
+//   }
+// );
 
 export default authSlice.reducer;

@@ -4,6 +4,16 @@ import axios from 'axios';
 // Устанавливаем базовый URL для всех запросов
 axios.defaults.baseURL = "https://connections-api.goit.global/";
 
+
+const setAuthHeader = token => {
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  // axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+};
+
+const clearAuthHeader = token => {
+  axios.defaults.headers.common["Authorization"] = "";
+};
+
 // Получение списка всех контактов (GET /contacts)
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
@@ -11,9 +21,10 @@ export const fetchContacts = createAsyncThunk(
     try {
       // Отправляем запрос на /contacts
       const response = await axios.get("/contacts");
+      setAuthHeader(response.data.token);
       console.log("Fetched contacts:", response.data); // Логируем полученные данные
       if (response.data.length === 0) {
-        console.warn("Нет контактов на сервере!");
+        console.warn("There are no contacts on the server!");
       }
       return response.data;
     } catch (error) {
@@ -30,6 +41,7 @@ export const addContact = createAsyncThunk(
     try {
       // Отправляем запрос на /contacts для создания нового контакта
       const response = await axios.post("/contacts", {name, number});
+      setAuthHeader(response.data.token);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -44,6 +56,7 @@ export const deleteContact = createAsyncThunk(
     try {
       // Отправляем запрос на /contacts/{id} для удаления контакта
       await axios.delete(`/contacts/${contactId}`);
+      clearAuthHeader();
       return contactId;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -58,6 +71,7 @@ export const updateContact = createAsyncThunk(
     try {
       // Отправляем запрос на /contacts/{id} для обновления контакта
       const response = await axios.put(`/contacts/${id}`, { name, number });
+      setAuthHeader(response.data.token);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
