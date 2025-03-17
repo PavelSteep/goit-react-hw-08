@@ -21,11 +21,6 @@ export default function ContactsPage() {
     const handleUnload = () => {
       dispatch(logOut());
     };
-
-    window.addEventListener("beforeunload", handleUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleUnload);
-    };
   }, [dispatch]);
 
   return (
